@@ -4,6 +4,7 @@ module Spree
 
     def initialize user
       cannot [:update, :destroy], TaxCategory, name: ['Alcohol']
+      cannot [:update, :destroy], ShippingCategory, name: ['Alcohol']
     end
   end
 end

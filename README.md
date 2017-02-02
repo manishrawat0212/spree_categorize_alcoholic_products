@@ -1,7 +1,7 @@
-SpreeCategorizeAlcoholicProducts
+Spree Categorize Alcoholic Products
 ================================
 
-Introduction goes here.
+Spree Categorize Alcoholic Products is an extension to let users manage alcoholic products in a spree application. This extension allows the admin to manage taxes on alcoholic products and their shipments.
 
 ## Installation
 
@@ -23,7 +23,12 @@ Introduction goes here.
   bundle exec rails g spree_categorize_alcoholic_products:install
   ```
 
-4. Restart your server
+4. Seed required data
+  ```ruby
+  bundle exec rails g spree_categorize_alcoholic_products:seed
+  ```
+
+5. Restart your server
 
   If your server was running, restart it so that it can find the assets properly.
 
@@ -50,4 +55,4 @@ If you'd like to contribute, please take a look at the
 [instructions](CONTRIBUTING.md) for installing dependencies and crafting a good
 pull request.
 
-Copyright (c) 2017 [name of extension creator], released under the New BSD License
+Copyright (c) 2017 Manish Rawat, released under the New BSD License

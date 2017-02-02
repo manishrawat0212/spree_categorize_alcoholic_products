@@ -19,11 +19,11 @@ module SpreeCategorizeAlcoholicProducts
       end
 
       def run_migrations
-        run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask 'Would you like to run the migrations now? [Y/n]')
+        run_migrations = options[:auto_run_migrations] || ['', 'y', 'Y'].include?(ask "Press 'y' or 'Y' to run the migrations:")
         if run_migrations
           run 'bundle exec rake db:migrate'
         else
-          puts 'Skipping rake db:migrate, don\'t forget to run it!'
+          puts "Skipping 'rake db:migrate', don't forget to run it!"
         end
       end
     end
