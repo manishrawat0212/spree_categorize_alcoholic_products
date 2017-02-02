@@ -6,3 +6,5 @@ en:
     alcoholic_products_category: Alcoholic Products Category
     alcoholic_product_tax_info: This product is alcoholic, alcohol tax may apply.
     alcoholic_product_notify: Alcoholic Product
+    alcoholic_products_taxon_details_html: This product is linked to an Alcoholic Products Taxon.</br>
+                                           Thus 'Alcohol' Tax Category and 'Alcohol' Shipping Category will be used.
