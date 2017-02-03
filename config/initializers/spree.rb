@@ -1,1 +1,2 @@
-Spree::PermittedAttributes.taxon_attributes << :has_alcoholic_products
+Spree::PermittedAttributes.taxon_attributes << :alcoholic
+Spree::PermittedAttributes.product_attributes << :alcoholic

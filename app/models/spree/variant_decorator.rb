@@ -1,17 +1,11 @@
 module Spree
   Variant.class_eval do
-    delegate_belongs_to :product, :is_alcoholic?
+    before_save :update_tax_category_to_alcohol, if: Proc.new { |v| !v.is_master? && v.alcoholic? }
 
-    def shipping_category
-      if is_alcoholic?
-        Spree::ShippingCategory.find_by(name: 'Alcohol') || product.shipping_category
-      else
-        product.shipping_category
-      end
-    end
+    delegate_belongs_to :product, :alcoholic?
 
-    def shipping_category_id
-      shipping_category.id
+    def update_tax_category_to_alcohol
+      self.tax_category = self.product.tax_category
     end
   end
 end

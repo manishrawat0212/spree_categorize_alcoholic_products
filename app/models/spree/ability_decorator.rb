@@ -3,8 +3,8 @@ module Spree
     include CanCan::Ability
 
     def initialize user
-      cannot [:update, :destroy], TaxCategory, name: ['Alcohol']
-      cannot [:update, :destroy], ShippingCategory, name: ['Alcohol']
+      cannot [:update, :destroy], TaxCategory, name: [ALCOHOLIC_TAX_CATEGORY]
+      cannot [:update, :destroy], ShippingCategory, name: [ALCOHOLIC_SHIPPING_CATEGORY]
     end
   end
 end
