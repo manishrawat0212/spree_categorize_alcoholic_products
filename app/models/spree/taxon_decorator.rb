@@ -4,7 +4,7 @@ module Spree
     after_update :save_products, if: :alcoholic_changed?
     with_options if: :alcoholic? do
       after_save :update_children
-      # before_destroy :update_associated_products, prepend: true
+      before_destroy :update_associated_products, prepend: true
     end
 
     scope :alcoholic, -> { where(alcoholic: true) }
@@ -30,13 +30,16 @@ module Spree
       end
     end
 
-    # def update_associated_products
-    #   self.products.update_all(alcoholic: false)
-    #   self.products.update_all(tax_category_id: nil)
-    #   self.products.update_all(shipping_category_id: ShippingCategory.non_alcoholic.first.id)
-    #   self.products.find_each do |product|
-    #     product.variants.update_all(tax_category_id: nil)
-    #   end
-    # end
+    def update_associated_products
+      products = self.products.select { |p| p.taxons.where.not(id: self).alcoholic.none? }
+      products.each do |product|
+        product.update_columns(
+          alcoholic: false,
+          tax_category_id: nil,
+          shipping_category_id: ShippingCategory.non_alcoholic.first.id
+        )
+        product.variants.update_all(tax_category_id: nil)
+      end
+    end
   end
 end

@@ -6,7 +6,7 @@ en:
     show_alcoholic: SHOW ALCOHOLIC
     alcoholic: Alcoholic
     alcoholic_product_notify: Alcoholic Product
-    alcoholic_products_taxon_details_html: This product is linked to an Alcoholic Products Taxon.</br>
+    alcoholic_products_taxon_details_html: This product is added to an Alcoholic Taxon.</br>
                                            Thus 'Alcohol' Tax Category and 'Alcohol' Shipping Category will be used.
     cannot_update_or_destroy_alcohol_tax_category: Cannot update or destroy tax category for Alcohol.
     cannot_update_or_destroy_alcohol_shipping_category: Cannot update or destroy shipping category for Alcohol.
