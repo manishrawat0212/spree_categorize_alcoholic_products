@@ -17,9 +17,10 @@ module Spree
     end
 
     def update_tax_category
+      alcohol_tax_category = TaxCategory.find_by(name: ALCOHOLIC_TAX_CATEGORY)
       if self.added_in_alcoholic_taxon?
-        self.tax_category = TaxCategory.find_by(name: ALCOHOLIC_TAX_CATEGORY)
-      else
+        self.tax_category = alcohol_tax_category
+      elsif self.tax_category_id_was == alcohol_tax_category.id
         self.tax_category = nil
       end
     end
