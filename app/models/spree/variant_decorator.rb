@@ -1,15 +1,15 @@
-module Spree
-  Variant.class_eval do
-    before_save :update_tax_category_to_alcohol, if: :product_is_alcohoic?
+Spree::Variant.class_eval do
+  before_validation :set_tax_category, if: :product_is_alcoholic?
 
-    delegate_belongs_to :product, :alcoholic?
+  delegate_belongs_to :product, :alcoholic?
 
-    def product_is_alcohoic?
-      !is_master? && alcoholic?
-    end
+  scope :non_master, -> { where(is_master: false) }
 
-    def update_tax_category_to_alcohol
-      self.tax_category = self.product.tax_category
-    end
+  def product_is_alcoholic?
+    !is_master? && alcoholic?
+  end
+
+  def set_tax_category
+    self.tax_category = product.tax_category
   end
 end

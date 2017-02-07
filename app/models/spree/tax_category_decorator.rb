@@ -1,19 +1,19 @@
-module Spree
-  TaxCategory.class_eval do
-    with_options if: :tax_category_is_alcohol? do
-      before_update :restrict_with_error_message
-      before_destroy :restrict_with_error_message
-    end
+Spree::TaxCategory.class_eval do
+  Spree::TaxCategory::ALCOHOLIC = 'Alcohol'.freeze
 
-    scope :non_alcoholic, -> { where.not(name: ALCOHOLIC_TAX_CATEGORY).order(:name) }
+  with_options if: :alcoholic? do
+    before_update :alcohol_category_restriction_error
+    before_destroy :alcohol_category_restriction_error
+  end
 
-    def tax_category_is_alcohol?
-      self.name == ALCOHOLIC_TAX_CATEGORY
-    end
+  scope :non_alcoholic, -> { where.not(name: Spree::TaxCategory::ALCOHOLIC) }
 
-    def restrict_with_error_message
-      self.errors.add(:base, Spree.t(:cannot_update_or_destroy_alcohol_tax_category))
-      false
-    end
+  def alcoholic?
+    name == Spree::TaxCategory::ALCOHOLIC
+  end
+
+  def alcohol_category_restriction_error
+    errors.add(:base, Spree.t(:cannot_update_or_destroy_alcohol_tax_category))
+    false
   end
 end
