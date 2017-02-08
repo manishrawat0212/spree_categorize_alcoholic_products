@@ -6,6 +6,9 @@ Spree::Product.class_eval do
 
   self.whitelisted_ransackable_attributes << "alcoholic"
 
+  scope :alcoholic, -> { where(alcoholic: true) }
+  scope :non_alcoholic, -> { where(alcoholic: false) }
+
   def added_in_alcoholic_taxon?
     taxons.alcoholic.exists?
   end
@@ -39,5 +42,28 @@ Spree::Product.class_eval do
     elsif alcoholic_changed?(from: true, to: false)
       variants.update_all(tax_category_id: nil)
     end
+  end
+
+  def self.update_as_alcoholic
+    tax_category_id = Spree::TaxCategory.find_by(name: Spree::TaxCategory::ALCOHOLIC).id
+    update_all(
+      alcoholic: true,
+      tax_category_id: tax_category_id,
+      shipping_category_id: Spree::ShippingCategory.find_by(name: Spree::ShippingCategory::ALCOHOLIC).id
+    )
+    Spree::Variant.non_master.where(product: self).update_all(
+      tax_category_id: tax_category_id
+    )
+  end
+
+  def self.update_as_non_alcoholic
+    update_all(
+      alcoholic: false,
+      tax_category_id: nil,
+      shipping_category_id: Spree::ShippingCategory.non_alcoholic.first.id
+    )
+    Spree::Variant.non_master.where(product: self).update_all(
+      tax_category_id: nil
+    )
   end
 end
