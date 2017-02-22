@@ -5,11 +5,7 @@ Spree::Product.class_eval do
                                                after_add: :set_taxons_changed,
                                                after_remove: :set_taxons_changed
 
-  with_options if: :taxons_changed do
-    before_validation :set_alcoholic
-    before_validation :set_tax_category
-    before_validation :set_shipping_category
-  end
+  before_validation :set_alcohol_related_fields, if: :taxons_changed
   after_save :set_tax_category_of_variants, if: :has_variants?
 
   self.whitelisted_ransackable_attributes << "alcoholic"
@@ -23,6 +19,12 @@ Spree::Product.class_eval do
 
   def added_in_alcoholic_taxon?
     taxons.alcoholic.exists?
+  end
+
+  def set_alcohol_related_fields
+    set_alcoholic
+    set_tax_category
+    set_shipping_category
   end
 
   def set_alcoholic
