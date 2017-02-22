@@ -1,13 +1,25 @@
 Spree::Product.class_eval do
-  before_validation :set_alcoholic
-  before_validation :set_tax_category
-  before_validation :set_shipping_category
+  attr_accessor :taxons_changed
+
+  has_many :taxons, through: :classifications, before_remove: :remove_taxon,
+                                               after_add: :set_taxons_changed,
+                                               after_remove: :set_taxons_changed
+
+  with_options if: :taxons_changed do
+    before_validation :set_alcoholic
+    before_validation :set_tax_category
+    before_validation :set_shipping_category
+  end
   after_save :set_tax_category_of_variants, if: :has_variants?
 
   self.whitelisted_ransackable_attributes << "alcoholic"
 
   scope :alcoholic, -> { where(alcoholic: true) }
   scope :non_alcoholic, -> { where(alcoholic: false) }
+
+  def set_taxons_changed(taxon)
+    self.taxons_changed = true
+  end
 
   def added_in_alcoholic_taxon?
     taxons.alcoholic.exists?
