@@ -1,0 +1,5 @@
+<div data-hook='alcoholic_product_info'>
+  <% if @product.alcoholic? %>
+    <span class="help-block small"><i><%= Spree.t(:alcoholic_product_notify) %></i></span>
+  <% end %>
+</div>

@@ -1,0 +1,5 @@
+<div data-hook='alcoholic_product_details'>
+  <% if @variant.alcoholic? %>
+    <span class="help-block"><i><%= Spree.t(:alcoholic_variants_taxon_details_html) %></i></span>
+  <% end %>
+</div>
